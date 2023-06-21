@@ -30,10 +30,15 @@ SELECT DATEDIFF(MAX(last_update), MIN(rental_date)) AS operating_days
 FROM rental;
 
 SELECT rental_id, rental_date, MONTH(rental_date) AS rental_month, DAYNAME(rental_date) AS rental_weekday
-FROM rental
+FROM sakila.rental
 LIMIT 20;
 
-SELECT * FROM sakila.rental; -- Add an additional column day_type with values 'weekend' and 'workday' depending on the rental day of the week;
+SELECT rental_id, rental_date,
+  CASE
+    WHEN DAYNAME(rental_date) IN ('Saturday', 'Sunday') THEN 'weekend'
+    ELSE 'workday'
+  END AS day_type
+FROM sakila.rental;
 
 SELECT release_year FROM sakila.film;
 
